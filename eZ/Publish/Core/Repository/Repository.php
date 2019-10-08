@@ -221,13 +221,12 @@ class Repository implements RepositoryInterface
 
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
-    /**
-     * @var \eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy
-     */
-    private $thumbnailStrategy;
 
     /** @var \eZ\Publish\Core\Repository\User\PasswordHashServiceInterface */
     private $passwordHashService;
+
+    /** @var \eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
+    private $thumbnailStrategy;
 
     /**
      * Construct repository object with provided storage engine.
