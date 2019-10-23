@@ -42,15 +42,13 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $relationTags = [];
         if (!empty($reverseRelations)) {
             $relationTags = array_map(function (Relation $relation) {
-                return 'content-fields-' . $relation->destinationContentId;
+                return 'content-' . $relation->destinationContentId;
             }, $reverseRelations);
         }
 
         $tags = array_merge(
             [
                 'content-' . $location->contentId,
-                'content-fields-' . $location->contentId,
-                'location-' . $locationId,
                 'location-path-' . $locationId,
             ],
             $relationTags
@@ -75,15 +73,13 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $relationTags = [];
         if (!empty($reverseRelations)) {
             $relationTags = array_map(function (Relation $relation) {
-                return 'content-fields-' . $relation->destinationContentId;
+                return 'content-' . $relation->destinationContentId;
             }, $reverseRelations);
         }
 
         $tags = array_merge(
             [
                 'content-' . $location->contentId,
-                'content-fields-' . $location->contentId,
-                'location-' . $trashedId,
                 'location-path-' . $trashedId,
             ],
             $relationTags
@@ -119,11 +115,9 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
             $reverseRelations = $this->persistenceHandler->contentHandler()->loadReverseRelations($trashedItem->contentId);
 
             foreach ($reverseRelations as $relation) {
-                $tags[] = 'content-fields-' . $relation->sourceContentId;
+                $tags[] = 'content-' . $relation->sourceContentId;
             }
             $tags[] = 'content-' . $trashedItem->contentId;
-            $tags[] = 'content-fields-' . $trashedItem->contentId;
-            $tags[] = 'location-' . $trashedItem->id;
             $tags[] = 'location-path-' . $trashedItem->id;
         }
 
@@ -150,7 +144,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadReverseRelations($trashed->contentId);
 
         $relationTags = array_map(function (Relation $relation) {
-            return 'content-fields-' . $relation->sourceContentId;
+            return 'content-' . $relation->sourceContentId;
         }, $reverseRelations);
 
         $return = $this->persistenceHandler->trashHandler()->deleteTrashItem($trashedId);
@@ -158,8 +152,6 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $tags = array_merge(
             [
                 'content-' . $return->contentId,
-                'content-fields-' . $return->contentId,
-                'location-' . $trashedId,
                 'location-path-' . $trashedId,
             ],
             $relationTags
