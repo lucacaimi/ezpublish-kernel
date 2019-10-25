@@ -56,6 +56,7 @@ class DoctrineDatabase extends Gateway
             'sort_order',
             'url_alias_name',
             'version',
+            'serialized_thumbnail_fields',
         ],
         'ezcontentclass_attribute' => [
             'id',
@@ -378,6 +379,9 @@ class DoctrineDatabase extends Gateway
         )->set(
             $this->dbHandler->quoteColumn('serialized_description_list'),
             $q->bindValue(serialize($type->description))
+        )->set(
+            $this->dbHandler->quoteColumn('serialized_thumbnail_fields'),
+            $q->bindValue(serialize($type->thumbnailFields))
         )->set(
             $this->dbHandler->quoteColumn('identifier'),
             $q->bindValue($type->identifier)
@@ -1110,6 +1114,7 @@ class DoctrineDatabase extends Gateway
                 'c.version AS ezcontentclass_version',
                 'c.serialized_name_list AS ezcontentclass_serialized_name_list',
                 'c.serialized_description_list AS ezcontentclass_serialized_description_list',
+                'c.serialized_thumbnail_fields AS ezcontentclass_serialized_thumbnail_fields',
                 'c.identifier AS ezcontentclass_identifier',
                 'c.created AS ezcontentclass_created',
                 'c.modified AS ezcontentclass_modified',

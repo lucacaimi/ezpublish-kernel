@@ -345,6 +345,7 @@ class Handler implements BaseContentTypeHandler
         $contentType = $this->mapper->createTypeFromUpdateStruct(
             $updateStruct
         );
+
         $this->contentTypeGateway->updateType($typeId, $status, $contentType);
 
         return $this->load($typeId, $status);

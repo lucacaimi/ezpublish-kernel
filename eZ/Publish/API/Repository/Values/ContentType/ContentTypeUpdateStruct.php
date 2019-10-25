@@ -44,6 +44,11 @@ class ContentTypeUpdateStruct extends ValueObject
     public $nameSchema;
 
     /**
+     * @var string[]
+     */
+    public $thumbnailFields;
+
+    /**
      * If set the container fllag is set to this value.
      *
      * @var bool

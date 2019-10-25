@@ -72,6 +72,11 @@ class UpdateStruct extends ValueObject
     public $urlAliasSchema;
 
     /**
+     * @var string[]
+     */
+    public $thumbnailFields;
+
+    /**
      * Name schema.
      *
      * @var string

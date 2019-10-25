@@ -139,6 +139,9 @@ class ContentTypeDomainMapper
         $updateStruct->description = $contentTypeUpdateStruct->descriptions !== null ?
             $contentTypeUpdateStruct->descriptions :
             $contentTypeDraft->descriptions;
+        $updateStruct->thumbnailFields = $contentTypeUpdateStruct->thumbnailFields !== null ?
+            $contentTypeUpdateStruct->thumbnailFields :
+            $contentTypeDraft->thumbnailFields;
 
         $updateStruct->modified = $contentTypeUpdateStruct->modificationDate !== null ?
             $contentTypeUpdateStruct->modificationDate->getTimestamp() :

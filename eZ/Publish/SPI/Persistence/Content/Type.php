@@ -128,6 +128,11 @@ class Type extends ValueObject
     public $nameSchema;
 
     /**
+     * @var string[]
+     */
+    public $thumbnailFields;
+
+    /**
      * Determines if the type is a container.
      *
      * @var bool

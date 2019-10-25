@@ -177,6 +177,7 @@ class Mapper
         $type->status = (int)$row['ezcontentclass_version'];
         $type->name = $this->unserialize($row['ezcontentclass_serialized_name_list']);
         $type->description = $this->unserialize($row['ezcontentclass_serialized_description_list']);
+        $type->thumbnailFields = $this->unserialize($row['ezcontentclass_serialized_thumbnail_fields']);
         // Unset redundant data
         unset(
             $type->name['always-available'],
@@ -501,6 +502,7 @@ class Mapper
         $type->sortField = $updateStruct->sortField;
         $type->sortOrder = $updateStruct->sortOrder;
         $type->languageCodes = array_keys($updateStruct->name);
+        $type->thumbnailFields = $updateStruct->thumbnailFields;
 
         return $type;
     }
