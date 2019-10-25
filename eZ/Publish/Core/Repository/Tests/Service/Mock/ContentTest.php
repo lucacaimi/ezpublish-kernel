@@ -20,6 +20,7 @@ use eZ\Publish\API\Repository\Values\ContentType\ContentType as APIContentType;
 use eZ\Publish\API\Repository\Values\Content\Location as APILocation;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct as APIContentCreateStruct;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCollection;
 use eZ\Publish\Core\Base\Exceptions\ContentFieldValidationException;
 use eZ\Publish\Core\Base\Exceptions\ContentValidationException;
 use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
@@ -144,7 +145,7 @@ class ContentTest extends BaseServiceMockTest
      * Test for the loadVersionInfo() method, of a draft.
      *
      * @depends testLoadVersionInfoById
-     * @covers \eZ\Publish\Core\Repository\ContentService::loadVersionInfoById
+     * @covers  \eZ\Publish\Core\Repository\ContentService::loadVersionInfoById
      */
     public function testLoadVersionInfoByIdAndVersionNumber()
     {
@@ -359,7 +360,7 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the loadVersionInfo() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::loadVersionInfo
+     * @covers  \eZ\Publish\Core\Repository\ContentService::loadVersionInfo
      * @depends eZ\Publish\Core\Repository\Tests\Service\Mock\ContentTest::testLoadVersionInfoById
      * @depends eZ\Publish\Core\Repository\Tests\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsNotFoundException
      * @depends eZ\Publish\Core\Repository\Tests\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion
@@ -543,7 +544,7 @@ class ContentTest extends BaseServiceMockTest
 
         $spiContent = new SPIContent([
             'versionInfo' => new VersionInfo([
-                    'contentInfo' => new ContentInfo(['id' => 42, 'contentTypeId' => 123]),
+                'contentInfo' => new ContentInfo(['id' => 42, 'contentTypeId' => 123]),
             ]),
         ]);
         $contentHandler
@@ -1066,14 +1067,13 @@ class ContentTest extends BaseServiceMockTest
      * Returns full, possibly redundant array of field values, indexed by field definition
      * identifier and language code.
      *
-     * @throws \RuntimeException Method is intended to be used only with consistent fixtures
-     *
      * @param string $mainLanguageCode
      * @param \eZ\Publish\API\Repository\Values\Content\Field[] $structFields
      * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
      * @param array $languageCodes
      *
      * @return array
+     * @throws \RuntimeException Method is intended to be used only with consistent fixtures
      */
     protected function determineValuesForCreate(
         $mainLanguageCode,
@@ -1168,7 +1168,6 @@ class ContentTest extends BaseServiceMockTest
         /** @var \PHPUnit\Framework\MockObject\MockObject $objectStateHandlerMock */
         $objectStateHandlerMock = $this->getPersistenceMock()->objectStateHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
-        $fieldTypeServiceMock = $this->getFieldTypeServiceMock();
         $domainMapperMock = $this->getDomainMapperMock();
         $relationProcessorMock = $this->getRelationProcessorMock();
         $nameSchemaServiceMock = $this->getNameSchemaServiceMock();
@@ -1178,7 +1177,7 @@ class ContentTest extends BaseServiceMockTest
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => $fieldDefinitions,
+                'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
                 'nameSchema' => '<nameSchema>',
             ]
         );
@@ -1423,11 +1422,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing the simplest use case.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::cloneField
-     * @covers \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::cloneField
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet1
      */
     public function testCreateContentNonRedundantFieldSet1($mainLanguageCode, $structFields, $spiFields)
@@ -1525,11 +1524,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing multiple languages with multiple translatable fields with empty default value.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::cloneField
-     * @covers \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::cloneField
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet2
      */
     public function testCreateContentNonRedundantFieldSet2($mainLanguageCode, $structFields, $spiFields)
@@ -1737,11 +1736,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing multiple languages with multiple translatable fields with empty default value.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::cloneField
-     * @covers \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::cloneField
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentNonRedundantFieldSetComplex
      */
     public function testCreateContentNonRedundantFieldSetComplex($mainLanguageCode, $structFields, $spiFields)
@@ -1789,8 +1788,8 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentWithInvalidLanguage
      */
     public function testCreateContentWithInvalidLanguage($mainLanguageCode, $structFields)
@@ -1894,7 +1893,7 @@ class ContentTest extends BaseServiceMockTest
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => $fieldDefinitions,
+                'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -1957,9 +1956,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the createContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionFieldDefinition
      */
     public function testCreateContentThrowsContentValidationExceptionFieldDefinition($mainLanguageCode, $structFields)
@@ -1995,9 +1994,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the createContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
      */
     public function testCreateContentThrowsContentValidationExceptionTranslation($mainLanguageCode, $structFields)
@@ -2044,7 +2043,6 @@ class ContentTest extends BaseServiceMockTest
         /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
-        $fieldTypeServiceMock = $this->getFieldTypeServiceMock();
         $domainMapperMock = $this->getDomainMapperMock();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
         $permissionResolver = $this->getPermissionResolverMock();
@@ -2052,7 +2050,7 @@ class ContentTest extends BaseServiceMockTest
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => $fieldDefinitions,
+                'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
                 'nameSchema' => '<nameSchema>',
             ]
         );
@@ -2173,9 +2171,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the createContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionRequiredField
      */
     public function testCreateContentRequiredField(
@@ -2237,7 +2235,6 @@ class ContentTest extends BaseServiceMockTest
         /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
-        $fieldTypeServiceMock = $this->getFieldTypeServiceMock();
         $domainMapperMock = $this->getDomainMapperMock();
         $relationProcessorMock = $this->getRelationProcessorMock();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
@@ -2247,7 +2244,7 @@ class ContentTest extends BaseServiceMockTest
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => $fieldDefinitions,
+                'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
                 'nameSchema' => '<nameSchema>',
             ]
         );
@@ -2385,9 +2382,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the createContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentThrowsContentFieldValidationException
      */
     public function testCreateContentThrowsContentFieldValidationException($mainLanguageCode, $structFields)
@@ -2789,10 +2786,10 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the createContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \eZ\Publish\Core\Repository\ContentService::createContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForCreate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getDefaultObjectStates
+     * @covers       \eZ\Publish\Core\Repository\ContentService::createContent
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
      */
     public function testCreateContentWithRollback()
@@ -2851,7 +2848,7 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentThrowsBadStateException
      */
     public function testUpdateContentThrowsBadStateException($status)
@@ -3134,7 +3131,9 @@ class ContentTest extends BaseServiceMockTest
                 'internalFields' => $existingFields,
             ]
         );
-        $contentType = new ContentType(['fieldDefinitions' => $fieldDefinitions]);
+        $contentType = new ContentType([
+            'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
+        ]);
 
         $languageHandlerMock->expects($this->any())
             ->method('loadByLanguageCode')
@@ -3376,9 +3375,9 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing the simplest use case.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet1
      */
     public function testUpdateContentNonRedundantFieldSet1($initialLanguageCode, $structFields, $spiFields)
@@ -3589,9 +3588,9 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing with translatable field.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet2
      */
     public function testUpdateContentNonRedundantFieldSet2($initialLanguageCode, $structFields, $spiFields)
@@ -3851,9 +3850,9 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing with new language and untranslatable field.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet3
      */
     public function testUpdateContentNonRedundantFieldSet3($initialLanguageCode, $structFields, $spiFields)
@@ -4156,9 +4155,9 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing with empty values.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet4
      */
     public function testUpdateContentNonRedundantFieldSet4($initialLanguageCode, $structFields, $spiFields)
@@ -4215,9 +4214,8 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * @todo add first field empty
-     *
      * @return array
+     * @todo add first field empty
      */
     public function providerForTestUpdateContentNonRedundantFieldSetComplex()
     {
@@ -4536,9 +4534,9 @@ class ContentTest extends BaseServiceMockTest
      *
      * Testing more complex cases.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSetComplex
      */
     public function testUpdateContentNonRedundantFieldSetComplex($initialLanguageCode, $structFields, $spiFields)
@@ -4587,8 +4585,8 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentWithInvalidLanguage
      */
     public function testUpdateContentWithInvalidLanguage($initialLanguageCode, $structFields)
@@ -4696,7 +4694,9 @@ class ContentTest extends BaseServiceMockTest
                 'internalFields' => [],
             ]
         );
-        $contentType = new ContentType(['fieldDefinitions' => $fieldDefinitions]);
+        $contentType = new ContentType([
+            'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
+        ]);
 
         $languageHandlerMock->expects($this->any())
             ->method('loadByLanguageCode')
@@ -4772,9 +4772,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionFieldDefinition
      */
     public function testUpdateContentThrowsContentValidationExceptionFieldDefinition($initialLanguageCode, $structFields)
@@ -4810,9 +4810,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionTranslation
      */
     public function testUpdateContentThrowsContentValidationExceptionTranslation($initialLanguageCode, $structFields)
@@ -4879,7 +4879,9 @@ class ContentTest extends BaseServiceMockTest
                 'internalFields' => $existingFields,
             ]
         );
-        $contentType = new ContentType(['fieldDefinitions' => $fieldDefinitions]);
+        $contentType = new ContentType([
+            'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
+        ]);
 
         $languageHandlerMock->expects($this->any())
             ->method('loadByLanguageCode')
@@ -4985,9 +4987,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentRequiredField
      */
     public function testUpdateContentRequiredField(
@@ -5084,7 +5086,9 @@ class ContentTest extends BaseServiceMockTest
                 'internalFields' => $existingFields,
             ]
         );
-        $contentType = new ContentType(['fieldDefinitions' => $fieldDefinitions]);
+        $contentType = new ContentType([
+            'fieldDefinitions' => $this->createFieldDefinitionCollectionMock($fieldDefinitions),
+        ]);
 
         $languageHandlerMock->expects($this->any())
             ->method('loadByLanguageCode')
@@ -5299,9 +5303,9 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Test for the updateContent() method.
      *
-     * @covers \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers       \eZ\Publish\Core\Repository\ContentService::getLanguageCodesForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::mapFieldsForUpdate
+     * @covers       \eZ\Publish\Core\Repository\ContentService::updateContent
      * @dataProvider providerForTestUpdateContentThrowsContentFieldValidationException
      */
     public function testUpdateContentThrowsContentFieldValidationException($initialLanguageCode, $structFields, $spiField, $allFieldErrors)
@@ -5410,16 +5414,14 @@ class ContentTest extends BaseServiceMockTest
 
         $repository->expects($this->once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock))
-        ;
+            ->will($this->returnValue($locationServiceMock));
 
         $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with(
                 $locationCreateStruct->parentLocationId
             )
-            ->will($this->returnValue($location))
-        ;
+            ->will($this->returnValue($location));
 
         $contentInfo->expects($this->any())
             ->method('__get')
@@ -5478,8 +5480,7 @@ class ContentTest extends BaseServiceMockTest
         $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with($locationCreateStruct->parentLocationId)
-            ->will($this->returnValue($location))
-        ;
+            ->will($this->returnValue($location));
 
         $contentInfoMock->expects($this->any())
             ->method('__get')
@@ -5610,8 +5611,7 @@ class ContentTest extends BaseServiceMockTest
         $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with($locationCreateStruct->parentLocationId)
-            ->will($this->returnValue($location))
-        ;
+            ->will($this->returnValue($location));
 
         $contentInfoMock->expects($this->any())
             ->method('__get')
@@ -5734,14 +5734,12 @@ class ContentTest extends BaseServiceMockTest
 
         $repositoryMock->expects($this->once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock))
-        ;
+            ->will($this->returnValue($locationServiceMock));
 
         $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with($locationCreateStruct->parentLocationId)
-            ->will($this->returnValue($location))
-        ;
+            ->will($this->returnValue($location));
 
         $contentInfoMock = $this->createMock(APIContentInfo::class);
         $contentInfoMock->expects($this->any())
@@ -5891,7 +5889,7 @@ class ContentTest extends BaseServiceMockTest
 
         $spiContent = new SPIContent([
             'versionInfo' => new VersionInfo([
-                    'contentInfo' => new ContentInfo(['id' => 42, 'contentTypeId' => 123]),
+                'contentInfo' => new ContentInfo(['id' => 42, 'contentTypeId' => 123]),
             ]),
         ]);
 
@@ -6125,5 +6123,25 @@ class ContentTest extends BaseServiceMockTest
             ->willReturn($this->getPermissionResolverMock());
 
         return $repositoryMock;
+    }
+
+    protected function createFieldDefinitionCollectionMock(array $fieldDefinitions): FieldDefinitionCollection
+    {
+        return new \eZ\Publish\Core\Repository\Values\ContentType\FieldDefinitionCollection($fieldDefinitions);
+//        $collection = $this->createMock(FieldDefinitionCollection::class);
+//
+//        $collection->method('get')->willReturnMap(
+//            array_map(static function (APIFieldDefinition $fieldDefinition): array {
+//                return [$fieldDefinition->identifier, $fieldDefinition];
+//            }, $fieldDefinitions)
+//        );
+//
+//        $collection->method('has')->willReturnCallback(
+//            static function (string $identifier) use($fieldDefinitions): bool {
+//                return in_array($identifier, array_column($fieldDefinitions, 'identifier'));
+//            }
+//        );
+//
+//        return $collection;
     }
 }

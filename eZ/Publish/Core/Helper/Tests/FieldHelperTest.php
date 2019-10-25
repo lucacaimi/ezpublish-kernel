@@ -60,7 +60,7 @@ class FieldHelperTest extends TestCase
         $emptyValue = $textLineFT->getEmptyValue();
         $emptyField = new Field(['fieldDefIdentifier' => $fieldDefIdentifier, 'value' => $emptyValue]);
 
-        $contentType = $this->getMockForAbstractClass(ContentType::class);
+        $contentType = $this->createMock(ContentType::class);
         $fieldDefinition = $this->getMockBuilder(FieldDefinition::class)
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
             ->getMockForAbstractClass();
@@ -106,7 +106,7 @@ class FieldHelperTest extends TestCase
         $nonEmptyValue = new Value('Vive le sucre !!!');
         $emptyField = new Field(['fieldDefIdentifier' => 'ezstring', 'value' => $nonEmptyValue]);
 
-        $contentType = $this->getMockForAbstractClass(ContentType::class);
+        $contentType = $this->createMock(ContentType::class);
         $fieldDefinition = $this->getMockBuilder(FieldDefinition::class)
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
             ->getMockForAbstractClass();

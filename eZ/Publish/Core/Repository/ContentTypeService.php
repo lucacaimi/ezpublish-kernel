@@ -1280,7 +1280,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->validateInputFieldDefinitionCreateStruct($fieldDefinitionCreateStruct);
         $loadedContentTypeDraft = $this->loadContentTypeDraft($contentTypeDraft->id);
 
-        if ($loadedContentTypeDraft->getFieldDefinition($fieldDefinitionCreateStruct->identifier) !== null) {
+        if ($loadedContentTypeDraft->hasFieldDefinition($fieldDefinitionCreateStruct->identifier)) {
             throw new InvalidArgumentException(
                 '$fieldDefinitionCreateStruct',
                 "Another FieldDefinition with identifier '{$fieldDefinitionCreateStruct->identifier}' exists in the ContentType"
@@ -1309,13 +1309,11 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         if ($fieldType->isSingular()) {
-            foreach ($loadedContentTypeDraft->getFieldDefinitions() as $fieldDefinition) {
-                if ($fieldDefinition->fieldTypeIdentifier === $fieldDefinitionCreateStruct->fieldTypeIdentifier) {
-                    throw new BadStateException(
-                        '$contentTypeDraft',
-                        "ContentType already contains field definition of non-repeatable field type '{$fieldDefinition->fieldTypeIdentifier}'"
-                    );
-                }
+            if ($loadedContentTypeDraft->hasFieldDefinitionOfType($fieldDefinitionCreateStruct->fieldTypeIdentifier)) {
+                throw new BadStateException(
+                    '$contentTypeDraft',
+                    "ContentType already contains field definition of non-repeatable field type '{$fieldDefinitionCreateStruct->fieldTypeIdentifier}'"
+                );
             }
         }
 
@@ -1472,7 +1470,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
         }
 
-        if (count($loadedContentTypeDraft->getFieldDefinitions()) === 0) {
+        if ($loadedContentTypeDraft->getFieldDefinitions()->isEmpty()) {
             throw new InvalidArgumentException(
                 '$contentTypeDraft',
                 'The content type draft should have at least one field definition.'

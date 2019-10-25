@@ -414,14 +414,7 @@ class UserService implements UserServiceInterface
         }
 
         // Search for the first ezuser field type in content type
-        $userFieldDefinition = null;
-        foreach ($userCreateStruct->contentType->getFieldDefinitions() as $fieldDefinition) {
-            if ($fieldDefinition->fieldTypeIdentifier == 'ezuser') {
-                $userFieldDefinition = $fieldDefinition;
-                break;
-            }
-        }
-
+        $userFieldDefinition = $this->getUserFieldDefinition($userCreateStruct->contentType);
         if ($userFieldDefinition === null) {
             throw new ContentValidationException('Provided content type does not contain ezuser field type');
         }
@@ -1199,14 +1192,7 @@ class UserService implements UserServiceInterface
         }
 
         // Search for the first ezuser field type in content type
-        $userFieldDefinition = null;
-        foreach ($context->contentType->getFieldDefinitions() as $fieldDefinition) {
-            if ($fieldDefinition->fieldTypeIdentifier === 'ezuser') {
-                $userFieldDefinition = $fieldDefinition;
-                break;
-            }
-        }
-
+        $userFieldDefinition = $this->getUserFieldDefinition($context->contentType);
         if ($userFieldDefinition === null) {
             throw new ContentValidationException('Provided content type does not contain ezuser field type');
         }
@@ -1325,13 +1311,7 @@ class UserService implements UserServiceInterface
 
     private function getUserFieldDefinition(ContentType $contentType): ?FieldDefinition
     {
-        foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
-            if ($fieldDefinition->fieldTypeIdentifier == 'ezuser') {
-                return $fieldDefinition;
-            }
-        }
-
-        return null;
+        return $contentType->getFirstFieldDefinitionOfType('ezuser');
     }
 
     /**

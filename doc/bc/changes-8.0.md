@@ -243,6 +243,11 @@ Changes affecting version compatibility with former or future versions.
   public function supports(int $capabilityFlag): bool;
   ```
 
+* The signature of the  `\eZ\Publish\API\Repository\Values\ContentType\ContentType::getFieldDefinitions` method was changed to:
+  ```php
+  abstract public function getFieldDefinitions(): FieldDefinitionCollection;
+  ```
+
 ## Removed services
 
 * `ezpublish.field_type_collection.factory` has been removed in favor of `eZ\Publish\Core\FieldType\FieldTypeRegistry`
