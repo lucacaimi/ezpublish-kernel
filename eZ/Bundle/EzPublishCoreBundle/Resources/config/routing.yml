@@ -98,7 +98,7 @@ services:
             - "@logger"
             - "%ezpublish.siteaccess.default%"
             - "%ezpublish.siteaccess.match_config%"
-            - "%ezpublish.siteaccess.list%"
+            - "@ezpublish.siteaccess.provider"
             - "%ezpublish.siteaccess.class%"
             - "%kernel.debug%"
 
