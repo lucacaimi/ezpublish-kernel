@@ -94,7 +94,7 @@ class URLService implements URLServiceInterface
             throw new UnauthorizedException('url', 'update');
         }
 
-        if (!$this->isUnique($url->id, $struct->url)) {
+        if ($struct->url !== null && !$this->isUnique($url->id, $struct->url)) {
             throw new InvalidArgumentException('struct', 'url already exists');
         }
 
