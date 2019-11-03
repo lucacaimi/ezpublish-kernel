@@ -158,7 +158,7 @@ class DoctrineDatabase extends Gateway
         );
         $q->prepare()->execute();
 
-        return $this->dbHandler->lastInsertId(
+        return (int)$this->dbHandler->lastInsertId(
             $this->dbHandler->getSequenceName('ezcontentclassgroup', 'id')
         );
     }

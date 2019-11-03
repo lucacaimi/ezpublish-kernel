@@ -35,6 +35,8 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
 
     private $fieldDefinitions = [];
 
+    private $identityMap = [];
+
     public function getExtensions()
     {
         $this->fieldHelperMock = $this->createMock(FieldHelper::class);
@@ -70,12 +72,18 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      */
     protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = [])
     {
+        if (!array_key_exists($contentTypeIdentifier, $this->identityMap)) {
+            $this->identityMap[$contentTypeIdentifier] = count($this->identityMap) + 1;
+        }
+
+        $contentTypeId = $this->identityMap[$contentTypeIdentifier];
+
         $fields = [];
         foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
             $fieldsArray = isset($fieldsArray['id']) ? [$fieldsArray] : $fieldsArray;
             foreach ($fieldsArray as $fieldInfo) {
                 // Save field definitions in property for mocking purposes
-                $this->fieldDefinitions[$contentTypeIdentifier][$fieldInfo['fieldDefIdentifier']] = new FieldDefinition(
+                $this->fieldDefinitions[$contentTypeId][$fieldInfo['fieldDefIdentifier']] = new FieldDefinition(
                     [
                         'identifier' => $fieldInfo['fieldDefIdentifier'],
                         'id' => $fieldInfo['id'],
@@ -101,7 +109,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                                 'id' => 42,
                                 'mainLanguageCode' => 'fre-FR',
                                 // Using as id as we don't really care to test the service here
-                                'contentTypeId' => $contentTypeIdentifier,
+                                'contentTypeId' => $contentTypeId,
                             ]
                         ),
                     ]
