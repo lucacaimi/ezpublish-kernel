@@ -8,10 +8,16 @@ declare(strict_types=1);
 
 namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Provider;
 
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Traversable;
 
+/**
+ * @internal For internal use only, do not rely on this class.
+ *           Be aware this should be regarded as experimental feature.
+ *           As in, method signatures and behavior might change in the future.
+ */
 final class StaticSiteAccessProvider implements SiteAccessProviderInterface
 {
     /** @var string[] */
@@ -42,6 +48,10 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
 
     public function getSiteAccess(string $name): SiteAccess
     {
-        return new SiteAccess($name, null, null, self::class);
+        if ($this->isDefined($name)) {
+            return new SiteAccess($name, null, null, self::class);
+        }
+
+        throw new NotFoundException('Site Access', $name);
     }
 }
