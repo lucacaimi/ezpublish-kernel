@@ -1,8 +1,6 @@
 <?php
 
 /**
- * File containing the ConsoleCommandListenerTest class.
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
@@ -13,7 +11,6 @@ use eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\TestOutput;
 use eZ\Publish\Core\MVC\Symfony\Event\ConsoleInitEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -23,21 +20,21 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConsoleCommandListenerTest extends TestCase
 {
-    const INVALID_SA_NAME = 'foo';
+    private const INVALID_SA_NAME = 'foo';
 
-    /** @var SiteAccess */
+    /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
 
-    /** @var EventDispatcherInterface|MockObject */
+    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $dispatcher;
 
-    /** @var ConsoleCommandListener */
+    /** @var \eZ\Bundle\EzPublishCoreBundle\EventListener\ConsoleCommandListener */
     private $listener;
 
-    /** @var InputDefinition; */
+    /** @var \Symfony\Component\Console\Input\InputDefinition; */
     private $inputDefinition;
 
-    /** @var TestOutput */
+    /** @var \Symfony\Component\Console\Output\Output */
     private $testOutput;
 
     protected function setUp(): void
