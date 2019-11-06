@@ -260,7 +260,7 @@ class URLService implements URLServiceInterface
         }
     }
 
-    private function createDateTime(int $timestamp): ?DateTimeInterface
+    private function createDateTime(?int $timestamp): ?DateTimeInterface
     {
         if ($timestamp > 0) {
             return new DateTime("@{$timestamp}");
