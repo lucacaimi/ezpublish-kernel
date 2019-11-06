@@ -251,7 +251,7 @@ class URLService implements URLServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
-    protected function isUnique($id, $url): bool
+    protected function isUnique(int $id, string $url): bool
     {
         try {
             return $this->loadByUrl($url)->id === $id;
@@ -260,7 +260,7 @@ class URLService implements URLServiceInterface
         }
     }
 
-    private function createDateTime($timestamp): ?DateTimeInterface
+    private function createDateTime(int $timestamp): ?DateTimeInterface
     {
         if ($timestamp > 0) {
             return new DateTime("@{$timestamp}");
