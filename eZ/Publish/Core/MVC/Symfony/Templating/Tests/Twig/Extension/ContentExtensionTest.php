@@ -33,8 +33,10 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /** @var \eZ\Publish\API\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldHelperMock;
 
+    /** @var \eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition[]  */
     private $fieldDefinitions = [];
 
+    /** @var int[] */
     private $identityMap = [];
 
     public function getExtensions()
@@ -70,7 +72,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      *
      * @return Content
      */
-    protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = [])
+    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = [])
     {
         if (!array_key_exists($contentTypeIdentifier, $this->identityMap)) {
             $this->identityMap[$contentTypeIdentifier] = count($this->identityMap) + 1;

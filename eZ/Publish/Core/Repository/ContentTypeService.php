@@ -867,10 +867,6 @@ class ContentTypeService implements ContentTypeServiceInterface
      */
     public function loadContentTypeByIdentifier(string $identifier, array $prioritizedLanguages = []): ContentType
     {
-        if (!is_string($identifier)) {
-            throw new InvalidArgumentValue('$identifier', $identifier);
-        }
-
         $spiContentType = $this->contentTypeHandler->loadByIdentifier(
             $identifier
         );
@@ -1517,10 +1513,6 @@ class ContentTypeService implements ContentTypeServiceInterface
      */
     public function newContentTypeGroupCreateStruct(string $identifier): ContentTypeGroupCreateStruct
     {
-        if (!is_string($identifier)) {
-            throw new InvalidArgumentValue('$identifier', $identifier);
-        }
-
         return new ContentTypeGroupCreateStruct(
             [
                 'identifier' => $identifier,
@@ -1583,14 +1575,6 @@ class ContentTypeService implements ContentTypeServiceInterface
      */
     public function newFieldDefinitionCreateStruct(string $identifier, string $fieldTypeIdentifier): FieldDefinitionCreateStruct
     {
-        if (!is_string($identifier)) {
-            throw new InvalidArgumentValue('$identifier', $identifier);
-        }
-
-        if (!is_string($fieldTypeIdentifier)) {
-            throw new InvalidArgumentValue('$fieldTypeIdentifier', $fieldTypeIdentifier);
-        }
-
         return new FieldDefinitionCreateStruct(
             [
                 'identifier' => $identifier,
