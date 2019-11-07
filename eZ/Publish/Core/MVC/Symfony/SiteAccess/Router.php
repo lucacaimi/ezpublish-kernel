@@ -17,7 +17,6 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
 {
     public const HEADER_SA_MATCHING_TYPE = 'header';
     public const ENV_SA_MATCHING_TYPE = 'env';
-    public const DEFAULT_SA_MATCHING_TYPE = 'default';
 
     /**
      * Name of the default siteaccess.
@@ -130,14 +129,11 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
             return $this->siteAccess;
         }
 
-        $this->siteAccess = new $this->siteAccessClass();
-
         // Request header always have precedence
         // Note: request headers are always in lower cased.
         if (!empty($request->headers['x-siteaccess'])) {
             $siteaccessName = $request->headers['x-siteaccess'][0];
             if (!$this->siteAccessProvider->isDefined($siteaccessName)) {
-                unset($this->siteAccess);
                 throw new InvalidSiteAccessException(
                     $siteaccessName,
                     $this->siteAccessProvider,
@@ -156,7 +152,6 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         $siteaccessEnvName = getenv('EZPUBLISH_SITEACCESS');
         if ($siteaccessEnvName !== false) {
             if (!$this->siteAccessProvider->isDefined($siteaccessEnvName)) {
-                unset($this->siteAccess);
                 throw new InvalidSiteAccessException(
                     $siteaccessEnvName,
                     $this->siteAccessProvider,
@@ -202,8 +197,8 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         }
 
         $this->logger->notice('Siteaccess not matched against configuration, returning default siteaccess.');
-        $this->siteAccess->name = $this->defaultSiteAccess;
-        $this->siteAccess->matchingType = self::DEFAULT_SA_MATCHING_TYPE;
+        $this->siteAccess = new $this->siteAccessClass($this->defaultSiteAccess);
+        $this->siteAccess->matchingType = SiteAccess::DEFAULT_MATCHING_TYPE;
 
         return $this->siteAccess;
     }
@@ -248,8 +243,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
             }
 
             /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess $siteAccess */
-            $siteAccess = new $siteAccessClass();
-            $siteAccess->name = $siteAccessName;
+            $siteAccess = new $siteAccessClass($siteAccessName);
             $siteAccess->matcher = $reverseMatcher;
             $siteAccess->matchingType = $reverseMatcher->getName();
 

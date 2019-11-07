@@ -35,7 +35,7 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
     public function getSiteAccesses(): Traversable
     {
         foreach ($this->siteAccessList as $name) {
-            yield new SiteAccess($name, null, null, self::class);
+            yield new SiteAccess($name, SiteAccess::DEFAULT_MATCHING_TYPE, null, self::class);
         }
 
         yield from [];
@@ -49,7 +49,7 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
     public function getSiteAccess(string $name): SiteAccess
     {
         if ($this->isDefined($name)) {
-            return new SiteAccess($name, null, null, self::class);
+            return new SiteAccess($name, SiteAccess::DEFAULT_MATCHING_TYPE, null, self::class);
         }
 
         throw new NotFoundException('Site Access', $name);

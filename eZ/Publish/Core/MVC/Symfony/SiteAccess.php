@@ -13,6 +13,8 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  */
 class SiteAccess extends ValueObject
 {
+    public const DEFAULT_MATCHING_TYPE = 'default';
+
     /**
      * Name of the siteaccess.
      *
@@ -43,8 +45,8 @@ class SiteAccess extends ValueObject
     public $provider;
 
     public function __construct(
-        string $name = null,
-        string $matchingType = null,
+        string $name,
+        string $matchingType = self::DEFAULT_MATCHING_TYPE,
         $matcher = null,
         ?string $provider = null
     ) {
