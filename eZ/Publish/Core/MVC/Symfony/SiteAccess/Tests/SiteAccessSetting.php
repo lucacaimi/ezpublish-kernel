@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Router;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 
 /**
  * This class represents settings which will be used to construct SiteAccessProvider mock.
@@ -24,7 +24,7 @@ final class SiteAccessSetting
     public function __construct(
         string $name,
         bool $isDefined,
-        string $matchingType = Router::DEFAULT_SA_MATCHING_TYPE
+        string $matchingType = SiteAccess::DEFAULT_MATCHING_TYPE
     ) {
         $this->name = $name;
         $this->isDefined = $isDefined;

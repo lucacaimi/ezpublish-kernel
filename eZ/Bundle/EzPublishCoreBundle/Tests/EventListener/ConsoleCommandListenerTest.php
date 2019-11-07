@@ -40,7 +40,7 @@ class ConsoleCommandListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->siteAccess = new SiteAccess();
+        $this->siteAccess = new SiteAccess('test');
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->listener = new ConsoleCommandListener('default', $this->getSiteAccessProviderMock(), $this->dispatcher);
         $this->listener->setSiteAccess($this->siteAccess);

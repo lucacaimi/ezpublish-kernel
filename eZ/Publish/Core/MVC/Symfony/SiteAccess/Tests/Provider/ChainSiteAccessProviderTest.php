@@ -57,7 +57,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         foreach ($expectedSiteAccessNames as $key => $expectedSiteAccessName) {
             $expectedSiteAccess = new SiteAccess(
                 $expectedSiteAccessName,
-                null,
+                SiteAccess::DEFAULT_MATCHING_TYPE,
                 null,
                 StaticSiteAccessProvider::class
             );
@@ -67,7 +67,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         $this->assertNotContains(
             new SiteAccess(
                 self::UNDEFINED_SA_NAME,
-                null,
+                SiteAccess::DEFAULT_MATCHING_TYPE,
                 null,
                 StaticSiteAccessProvider::class
             ),
@@ -81,7 +81,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         $this->assertEquals(
             new SiteAccess(
                 self::EXISTING_SA_NAME,
-                null,
+                SiteAccess::DEFAULT_MATCHING_TYPE,
                 null,
                 StaticSiteAccessProvider::class
             ),
