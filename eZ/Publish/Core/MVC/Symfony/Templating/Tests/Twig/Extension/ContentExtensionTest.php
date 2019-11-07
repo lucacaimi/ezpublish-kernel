@@ -33,7 +33,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /** @var \eZ\Publish\API\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldHelperMock;
 
-    /** @var \eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition[]  */
+    /** @var \eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition[] */
     private $fieldDefinitions = [];
 
     /** @var int[] */
